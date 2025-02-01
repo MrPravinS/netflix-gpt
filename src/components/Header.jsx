@@ -1,11 +1,15 @@
-import React from 'react'
+import React from "react";
 
 const Header = () => {
   return (
-    <div>
-      <img src="https://images.ctfassets.net/y2ske730sjqp/1aONibCke6niZhgPxuiilC/2c401b05a07288746ddf3bd3943fbc76/BrandAssets_Logos_01-Wordmark.jpg?w=940" alt="logo-img" />
+    <div className="absolute top-0 left-0 p-6 ml-11 bg-gradient-to-b from-black z-20">
+      <img
+        src="https://1000logos.net/wp-content/uploads/2017/05/Netflix-Logo.png"
+        alt="logo-img"
+        className="h-12"
+      />
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
