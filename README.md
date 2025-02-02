@@ -19,6 +19,9 @@ add =>when user click on the sign in botton browser want to submit the form for 
   - select =>  Use an existing project
   add =>  What do you want to use as your public directory? build
 
+  - sign up user account
+  const auth = getAuth() have everywhere so this make in separete in diff file
+
 # Features
 
 - Login / Sign Up

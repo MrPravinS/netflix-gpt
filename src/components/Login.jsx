@@ -1,17 +1,19 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { checkValidData } from "../utils/validate";
+import { createUserWithEmailAndPassword ,  signInWithEmailAndPassword} from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const email = useRef(null);
-  
-    /* reference email and pass*/
-  
+
+  /* reference email and pass*/
+
   const password = useRef(null);
-  const fullName = useRef(null);
+  // const fullName = useRef(null);
 
   const handleBtnClick = () => {
     // validate the form
@@ -20,15 +22,52 @@ const Login = () => {
     // console.log(email.current.value); // get the current value of the input
     // console.log(password.current.value);
 
-    const validateUserMsg = checkValidData(
+    const message = checkValidData(
       email.current.value,
       password.current.value,
-      fullName.current.value
+      // fullName.current.value
     );
     // console.log(validateUserMsg);
-    setErrorMessage(validateUserMsg)  // set error message  
+    setErrorMessage(message); // set error message
 
-    // sign / sign up
+    if (message) return;
+
+    // sign in/ sin up logic
+    if (!isSignInForm) {
+      // for sign up form
+      // sign up logic
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+          setErrorMessage(errorCode + errorMessage);
+        });
+    } else {
+      // sign in logic
+      signInWithEmailAndPassword(auth,  
+        email.current.value,
+        password.current.value)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+          
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + errorMessage)
+        });
+    }
   };
 
   const toggleSignInForm = () => {
@@ -55,8 +94,8 @@ const Login = () => {
 
         {/* show only for new user  */}
         {!isSignInForm && (
-          <input 
-          ref={fullName}
+          <input
+            // ref={fullName}
             type="text"
             placeholder="Full Name"
             className="p-4 my-4 w-full bg-gray-700 rounded-lg"
@@ -68,7 +107,7 @@ const Login = () => {
           placeholder="Email or mobile number"
           className="p-4 my-4 w-full bg-gray-700 rounded-lg"
         />
-        
+
         <input
           ref={password} //use for reference of input password
           type="password"
