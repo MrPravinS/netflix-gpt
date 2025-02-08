@@ -21,6 +21,8 @@ add =>when user click on the sign in botton browser want to submit the form for 
 
   - sign up user account
   const auth = getAuth() have everywhere so this make in separete in diff file
+  - implement signIn user Api
+  -created redux store with userSlice
 
 # Features
 

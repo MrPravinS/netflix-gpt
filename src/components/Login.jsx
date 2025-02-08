@@ -1,30 +1,30 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import { checkValidData } from "../utils/validate";
-import { createUserWithEmailAndPassword ,  signInWithEmailAndPassword} from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from "../utils/firebase";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const email = useRef(null);
+  //navigation
+   const navigate = useNavigate()
 
   /* reference email and pass*/
-
+  const email = useRef(null);
   const password = useRef(null);
   // const fullName = useRef(null);
 
   const handleBtnClick = () => {
     // validate the form
-    //  checkValidData(email,password)
-
-    // console.log(email.current.value); // get the current value of the input
-    // console.log(password.current.value);
-
     const message = checkValidData(
       email.current.value,
-      password.current.value,
+      password.current.value
       // fullName.current.value
     );
     // console.log(validateUserMsg);
@@ -44,28 +44,31 @@ const Login = () => {
         .then((userCredential) => {
           const user = userCredential.user;
           console.log(user);
+          navigate("/browse")
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           // ..
-          setErrorMessage(errorCode + errorMessage);
+          setErrorMessage(errorCode +":"+ errorMessage);
         });
     } else {
       // sign in logic
-      signInWithEmailAndPassword(auth,  
+      signInWithEmailAndPassword(
+        auth,
         email.current.value,
-        password.current.value)
+        password.current.value
+      )
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
           console.log(user);
-          
+          navigate("/browse")
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          setErrorMessage(errorCode + errorMessage)
+          setErrorMessage(errorCode + errorMessage);
         });
     }
   };
@@ -123,7 +126,7 @@ const Login = () => {
         </button>
 
         <p className="p-4  text-center">
-          {isSignInForm ? "New to Netflix? " : "Already resistered? "}
+          {isSignInForm ? "New to Netflix? " : "Already registered? "}
           <span className="font-bold cursor-pointer" onClick={toggleSignInForm}>
             {isSignInForm ? "Sign Up now" : "Sign In now"}
           </span>
