@@ -78,11 +78,11 @@ const Login = () => {
   };
 
   return (
-    <div className="relatiive h-screen w-full flex items-center justify-center">
+    <div className="relative h-screen w-full flex items-center justify-center">
       <Header />
       <div className="h-screen w-full absolute inset-0">
         <img
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/7a8c0067-a424-4e04-85f8-9e25a49a86ed/web/IN-en-20250120-TRIFECTA-perspective_860a95da-c386-446e-af83-fef8ddd80803_small.jpg"
+          src="https://assets.nflxext.com/ffe/siteui/vlv3/05e91faa-6f6d-4325-934e-5418dcc2567b/web/IN-en-20250630-TRIFECTA-perspective_159086b1-425f-435b-bcd5-1ed8039cdef9_medium.jpg"
           alt="bg-img"
           className="h-full w-full object-cover"
         />
@@ -108,7 +108,7 @@ const Login = () => {
           ref={email} //use for reference of input email
           type="text"
           placeholder="Email or mobile number"
-          className="p-4 my-4 w-full bg-gray-700 rounded-lg"
+          className="p-4 my-4 w-full bg-gray-700 rounded-lg focus:border-gray-600"
         />
 
         <input
@@ -127,7 +127,7 @@ const Login = () => {
 
         <p className="p-4  text-center">
           {isSignInForm ? "New to Netflix? " : "Already registered? "}
-          <span className="font-bold cursor-pointer" onClick={toggleSignInForm}>
+          <span className="font-bold cursor-pointer underline text-gray-300" onClick={toggleSignInForm}>
             {isSignInForm ? "Sign Up now" : "Sign In now"}
           </span>
         </p>
