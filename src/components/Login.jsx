@@ -50,7 +50,7 @@ const Login = () => {
             displayName: fullName.current.value,
             photoURL:PHOTOURL
           });
-          console.log(user);
+          // console.log(user);
           const { uid, email, displayName, photoURL } = user;
           dispatch(
             addUser({
