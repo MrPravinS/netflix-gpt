@@ -1,24 +1,27 @@
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import { checkValidData } from "../utils/validate";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
+import { PHOTOURL } from "../utils/constants";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
 
   //navigation
-   const navigate = useNavigate()
+  const dispatch = useDispatch();
 
   /* reference email and pass*/
   const email = useRef(null);
   const password = useRef(null);
-  // const fullName = useRef(null);
+  const fullName = useRef(null);
 
   const handleBtnClick = () => {
     // validate the form
@@ -43,14 +46,26 @@ const Login = () => {
       )
         .then((userCredential) => {
           const user = userCredential.user;
+          updateProfile(user, {
+            displayName: fullName.current.value,
+            photoURL:PHOTOURL
+          });
           console.log(user);
-          navigate("/browse")
+          const { uid, email, displayName, photoURL } = user;
+          dispatch(
+            addUser({
+              uid: uid,
+              email: email,
+              displayName: displayName,
+              photoURL: photoURL,
+            })
+          );
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           // ..
-          setErrorMessage(errorCode +":"+ errorMessage);
+          setErrorMessage(errorCode + ":" + errorMessage);
         });
     } else {
       // sign in logic
@@ -63,7 +78,6 @@ const Login = () => {
           // Signed in
           const user = userCredential.user;
           console.log(user);
-          navigate("/browse")
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -98,7 +112,7 @@ const Login = () => {
         {/* show only for new user  */}
         {!isSignInForm && (
           <input
-            // ref={fullName}
+            ref={fullName}
             type="text"
             placeholder="Full Name"
             className="p-4 my-4 w-full bg-gray-700 rounded-lg"
@@ -127,7 +141,10 @@ const Login = () => {
 
         <p className="p-4  text-center">
           {isSignInForm ? "New to Netflix? " : "Already registered? "}
-          <span className="font-bold cursor-pointer underline text-gray-300" onClick={toggleSignInForm}>
+          <span
+            className="font-bold cursor-pointer underline text-gray-300"
+            onClick={toggleSignInForm}
+          >
             {isSignInForm ? "Sign Up now" : "Sign In now"}
           </span>
         </p>
