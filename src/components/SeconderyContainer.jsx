@@ -13,7 +13,7 @@ const SeconderyContainer = () => {
       <MovieList title={"Trending"} movies={movies.trendingMovies} />
       <MovieList title={"Top Rated"} movies={movies.topRatedMovies} />
       <MovieList title={"Popular"} movies={movies.populerMovies} />
-      <MovieList title={"Horror"} movies={movies.nowPlayingMovies} />
+      <MovieList title={"Upcoming Movies"} movies={movies.upComingMovies} />
         </div>
     </div>
   );
