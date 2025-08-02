@@ -5,6 +5,8 @@ import useMovieTrailer from "../hooks/useMovieTrailer";
 const VideoBackground = ({ movieId }) => {
     const trailerVideo = useSelector(store=>store.movies?.nowPlayingTrailer)
     useMovieTrailer(movieId)
+    console.log(trailerVideo);
+    
   return (
     <div className=" inset-0 w-full h-full overflow-hidden z-0">
       <iframe className="w-full h-full overflow-hidden z-0 aspect-video pointer-events-none"

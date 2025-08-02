@@ -5,9 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
 import { LOGO, PHOTOURL } from "../utils/constants";
+import { setGptSearchView } from "../utils/gptSlice";
 
 const Header = () => {
   const user = useSelector(store => store.user)
+  const showGpt = useSelector(store => store.gpt.viewGptSearch)
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
@@ -18,6 +20,9 @@ const Header = () => {
     });
   };
 
+  const handleGptSearch = () => {
+    dispatch(setGptSearchView())
+  }
     useEffect(()=>{
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -47,8 +52,16 @@ const Header = () => {
       </div>
 
       {/* User Section */}
-     {user && <div className="flex items-center space-x-4 mr-11">
-        <span className="text-white font-bold text-xl">Welcome!  {user.displayName}</span>
+     {user &&  <div className="flex items-center space-x-4 mr-11">
+{      showGpt && <select className="bg-gray-800 text-white px-2 py-2 rounded-lg font-bold">
+        <option value="en">English</option>
+        <option value="hindi">Hindi</option>
+        <option value="spanish">Spanish</option>
+      </select>}
+        <button
+        onClick={handleGptSearch}
+           className="bg-purple-500 rounded-lg hover:bg-purple-700 px-2 py-1 transition duration-200 ease-in-out text-white font-bold">{showGpt ? "Home" :"GPT Search"}</button>
+        {/* <span className="text-white font-bold text-xl">Welcome!  {user.displayName}</span> */}
         <img
           className="h-12 w-12 rounded-full"
           src={PHOTOURL}
